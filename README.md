@@ -6,7 +6,7 @@ API para gerenciamento dos usuários da livraria da Amazon.
 
 Abaixo esta o desenho da API baseado na documentação gerada pelo Swagger2.
 
-![Desenho da API](amazon-authy-design.png)
+![Desenho da API](amazon-authy-design-new.png)
 
 ## 11 regras utilizadas para desenhar a API.
 
