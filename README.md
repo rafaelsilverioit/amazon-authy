@@ -29,6 +29,7 @@ Não foi necessária a implementação.
 
 ### Padrão ISO 8601 para os atributos de data/hora
 Os recursos que possuem atributos de data/hora utilizam o formato yyyy-MM-ddTHH:mm:ss.
+- POST /v1/public/users/auth
 
 ### APIs documentadas
 As APIs foram devidamente documentadas utilizando o Swagger2. Para consultar a documentação acesse http://[IP]:9001/v1/public/swagger-ui.html
