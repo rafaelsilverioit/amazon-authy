@@ -18,37 +18,29 @@ import br.pucminas.authy.models.User;
 public class UserService {
 	private final List<User> users = new ArrayList<>();
 	
+	// TODO: Move authentication related code to LoginService.
 	public User authenticate(User user) {
 		Optional<User> maybeUser = this.users
 			.stream()
-			.filter(u -> {
-				String email = user.getEmail();
-				String password = user.getPassword();
-				String hashedPassword = DigestUtils.md5DigestAsHex(password.getBytes()).toUpperCase();
-
-				boolean matchesEmail = !StringUtils.isEmpty(email) && u.getEmail().equalsIgnoreCase(email);
-				boolean matchesPassword = !StringUtils.isEmpty(hashedPassword) && u.getPassword().equalsIgnoreCase(hashedPassword);
-				
-				return matchesEmail && matchesPassword;
-			})
+			.filter(u -> isSameEmailAndPassword(user, u))
 			.findFirst();
 		
-		if(maybeUser.isPresent()) {
-			return maybeUser.get();
-		}
+		return getUserOrThrowException(maybeUser);
+	}
+	
+	public User user(String id) {
+		Optional<User> maybeUser = this.users
+			.stream()
+			.filter(u -> isMatchingUser(id, u))
+			.findFirst();
 		
-		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!");
+		return getUserOrThrowException(maybeUser);
 	}
 	
 	public User create(User user) {
 		Optional<User> maybeUser = this.users
 			.stream()
-			.filter(u -> {
-				String email = user.getEmail();
-				boolean matchesEmail = !StringUtils.isEmpty(email) && u.getEmail().equalsIgnoreCase(email);
-				
-				return matchesEmail;
-			})
+			.filter(u -> isSameEmail(user, u))
 			.findFirst();
 		
 		if(maybeUser.isPresent()) {
@@ -64,5 +56,35 @@ public class UserService {
 		users.add(user);
 		
 		return user;
+	}
+
+	private Boolean isSameEmailAndPassword(User target, User user) {
+		String email = target.getEmail();
+		String password = target.getPassword();
+		String hashedPassword = DigestUtils.md5DigestAsHex(password.getBytes()).toUpperCase();
+
+		boolean matchesEmail = !StringUtils.isEmpty(email) && user.getEmail().equalsIgnoreCase(email);
+		boolean matchesPassword = !StringUtils.isEmpty(hashedPassword) && user.getPassword().equalsIgnoreCase(hashedPassword);
+		
+		return matchesEmail && matchesPassword;
+	}
+	
+	private Boolean isSameEmail(User target, User user) {
+		String email = target.getEmail();
+		boolean matchesEmail = !StringUtils.isEmpty(email) && user.getEmail().equalsIgnoreCase(email);
+		
+		return matchesEmail;
+	}
+	
+	private Boolean isMatchingUser(String id, User user) {
+		return user.getId().equalsIgnoreCase(id);
+	}
+	
+	private User getUserOrThrowException(Optional<User> maybeUser) {
+		if(maybeUser.isPresent()) {
+			return maybeUser.get();
+		}
+		
+		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!");
 	}
 }

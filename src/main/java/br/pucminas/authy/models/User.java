@@ -8,11 +8,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModel;
 
 @ApiModel
 public class User {
+	@JsonIgnore
 	private String id;
 
 	@NotBlank
@@ -30,6 +32,7 @@ public class User {
 	@NotBlank @Size(min = 6, max = 8)
 	private String password;
 	
+	@JsonIgnore
 	private Date createdAt;
 
 	public User() {
@@ -45,6 +48,7 @@ public class User {
 		this.createdAt = createdAt;
 	}
 
+	@JsonProperty
 	public String getId() {
 		return id;
 	}
@@ -94,6 +98,7 @@ public class User {
 		this.password = password;
 	}
 
+	@JsonProperty
 	public Date getCreatedAt() {
 		return createdAt;
 	}

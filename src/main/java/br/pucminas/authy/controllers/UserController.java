@@ -2,6 +2,7 @@ package br.pucminas.authy.controllers;
 
 import javax.validation.Valid;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,6 +37,16 @@ public class UserController {
 		user.setEmail(login.getEmail());
 		user.setPassword(login.getPassword());
 		return service.authenticate(user);
+	}
+	
+	@ApiOperation(value = "Busca um usuário.")
+	@RequestMapping(path="/{id}", method=RequestMethod.GET)
+	public User user(
+			@ApiParam(required = true, value = "UUID do usuário.")
+			@Valid
+			@PathVariable("id")
+			String id) {
+		return service.user(id);
 	}
 	
 	@ApiOperation(value = "Registra um usuário.")
