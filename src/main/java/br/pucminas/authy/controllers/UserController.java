@@ -1,19 +1,14 @@
 package br.pucminas.authy.controllers;
 
-import javax.validation.Valid;
-
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import br.pucminas.authy.models.Login;
 import br.pucminas.authy.models.User;
 import br.pucminas.authy.services.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Api(tags = {"Users"})
 @RestController
@@ -32,10 +27,12 @@ public class UserController {
 			@ApiParam(required = true, value = "Objeto do login.")
 			@Valid
 			@RequestBody
-			Login login) {
+			Login login)
+		throws Throwable {
 		User user = new User();
 		user.setEmail(login.getEmail());
 		user.setPassword(login.getPassword());
+
 		return service.authenticate(user);
 	}
 	
@@ -45,7 +42,8 @@ public class UserController {
 			@ApiParam(required = true, value = "UUID do usuário.")
 			@Valid
 			@PathVariable("id")
-			String id) {
+			String id)
+		throws Throwable {
 		return service.user(id);
 	}
 	
@@ -55,7 +53,8 @@ public class UserController {
 			@ApiParam(required = true, value = "Objeto do usuário.")
 			@Valid
 			@RequestBody
-			User user) {
+			User user)
+		throws Throwable {
 		return service.create(user);
 	}
 }

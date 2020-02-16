@@ -1,18 +1,22 @@
 package br.pucminas.authy.models;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.annotations.ApiModel;
+import java.util.Date;
 
 @ApiModel
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 	@JsonIgnore
 	private String id;
@@ -21,7 +25,7 @@ public class User {
 	private String name;
 
 	@NotBlank
-	private String lastname;
+	private String lastName;
 
 	@NotBlank @Email
 	private String email;
@@ -35,19 +39,6 @@ public class User {
 	@JsonIgnore
 	private Date createdAt;
 
-	public User() {
-	}
-
-	public User(String id, String name, String lastname, String email, Date dob, String password, Date createdAt) {
-		this.id = id;
-		this.name = name;
-		this.lastname = lastname;
-		this.email = email;
-		this.dob = dob;
-		this.password = password;
-		this.createdAt = createdAt;
-	}
-
 	@JsonProperty
 	public String getId() {
 		return id;
@@ -56,46 +47,6 @@ public class User {
 	@JsonIgnore
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Date getDob() {
-		return dob;
-	}
-
-	public void setDob(Date dob) {
-		this.dob = dob;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	@JsonProperty
